@@ -69,6 +69,14 @@ class Sigmoid(sjax.Module):
     def __call__(self, x):
         return jax.nn.sigmoid(x)
 
+class LogSigmoid(sjax.Module):
+    def __init__(self):
+        super().__init__()
+
+    @sjax.module_method
+    def __call__(self, x):
+        return jax.nn.log_sigmoid(x)
+
 class Dropout(sjax.Module):
     def __init__(self, p=0.5):
         super().__init__()
