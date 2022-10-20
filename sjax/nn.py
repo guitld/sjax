@@ -1,5 +1,6 @@
 import jax
 import jax.numpy as jnp
+import jax.scipy as jsp
 import numpy as np
 import sjax
 
@@ -60,6 +61,16 @@ class PositionalEncoding(sjax.Module):
         p_encodings = jax.device_put(p_encodings)
         return x + p_encodings[:x.shape[0]]
 
+class MaxPooling2D(sjax.Module):
+    def __init__(self, pool_size, strides, padding='valid'):
+        super().__init__()
+        self._pool_size = pool_size
+        self._padding = padding
+        self._strides = strides
+
+    @sjax.module_method
+    def __call__(self, inputs):
+        return jax.lax.reduce_window(inputs, -np.inf, jax.lax.max, self._pool_size, self._strides,self._padding)
 
 class Sigmoid(sjax.Module):
     def __init__(self):
