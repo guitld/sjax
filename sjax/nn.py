@@ -173,6 +173,16 @@ class PointWiseFeedForward(sjax.Module):
         x = self.linear2(x)
         return x
 
+class Softmax(sjax.Module):
+    def __init__(self, axis=-1, where=None, initial=None):
+        super().__init__()
+        self.axis = axis
+        self.where = where
+        self.initial = initial
+    
+    def __call__(self, x):
+        return jax.nn.softmax(x, self.axis, self.where, self.initial)
+
 class LogSoftmax(sjax.Module):
     def __init__(self):
         super().__init__()
