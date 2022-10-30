@@ -1,3 +1,4 @@
+from ssl import ALERT_DESCRIPTION_UNSUPPORTED_EXTENSION
 import jax
 import jax.numpy as jnp
 import jax.scipy as jsp
@@ -178,3 +179,11 @@ class LogSoftmax(sjax.Module):
     
     def __call__(self, x):
         return jax.nn.log_softmax(x)
+
+class GeLU(sjax.Module):
+    def __init__(self, approximate=False):
+        super().__init__()
+        self.approximate = approximate
+
+    def __call__(self, x):
+        return jax.nn.gelu(x, self.approximate)
